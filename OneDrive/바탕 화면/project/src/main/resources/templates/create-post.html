@@ -8,7 +8,7 @@
   <link rel="stylesheet" th:href="@{/nav-bar.css}">
 </head>
 <body>
-<div th:insert="nav-bar :: nav-bar"></div>
+<div th:insert="~{nav-bar :: nav-bar}"></div>
 <div>
   <h2>새로운 게시글 작성</h2>
   <form th:action="@{/travel/createPost}" th:object="${postDto}" method="post">

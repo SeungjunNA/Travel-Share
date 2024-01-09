@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService {
@@ -23,12 +24,16 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public List<Post> getAllPosts(){
-        return postRepository.findAll();
+    public Optional<Post> getPostFindById(long postId){
+        return postRepository.findById(postId);
     }
 
     public Page<Post> getPostsPage(int page, int size) {
         Pageable pageable = PageRequest.of(page,size);
         return postRepository.findAll(pageable);
+    }
+
+    public Page<Post> getKoreaTravelPost(Pageable pageable) {
+        return postRepository.findByCountryContainsOrCountryContains("korea", "한국", pageable);
     }
 }
