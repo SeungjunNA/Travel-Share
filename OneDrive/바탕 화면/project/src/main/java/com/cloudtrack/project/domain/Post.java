@@ -11,6 +11,7 @@ import lombok.Setter;
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression.DateTime;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Entity
@@ -26,8 +27,6 @@ public class Post {
     private String country;
     private String editPassword;
     private LocalDateTime createdDateTime;
-//    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-//    String formattedDateTime = currentDateTime.format(formatter); 시간 날짜 표시
 
     public Post (String title, String content, String country, String editPassword){
         this.title = title;
