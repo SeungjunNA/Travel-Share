@@ -1,6 +1,6 @@
 package com.cloudtrack.project.dto;
 
-import com.cloudtrack.project.domain.Post;
+import com.cloudtrack.project.Entity.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,12 +14,7 @@ public class PostDto {
     private String content;
     private String country;
     private String editPassword;
-//    public PostDto(String title, String content, String country, String editPassword){
-//        this.title = title;
-//        this.content = content;
-//        this.country = country;
-//        this.editPassword = editPassword;
-//    }
+
     public Post toEntity(){
         return new Post(title, content, country, editPassword);
     }

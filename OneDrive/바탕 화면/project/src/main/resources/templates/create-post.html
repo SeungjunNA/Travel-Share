@@ -11,7 +11,7 @@
 <div th:insert="~{nav-bar :: nav-bar}"></div>
 <div>
   <h2>새로운 게시글 작성</h2>
-  <form th:action="@{/travel/createPost}" th:object="${postDto}" method="post">
+  <form th:action="@{/travel/create-post}" th:object="${postDto}" method="post">
     <label for="title">제목:</label>
     <input type="text" id="title" th:field="*{title}" required/>
     <br/>

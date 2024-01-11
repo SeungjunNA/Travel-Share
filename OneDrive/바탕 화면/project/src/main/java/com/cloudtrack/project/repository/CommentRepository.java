@@ -1,6 +1,6 @@
 package com.cloudtrack.project.repository;
 
-import com.cloudtrack.project.domain.Comment;
+import com.cloudtrack.project.Entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
