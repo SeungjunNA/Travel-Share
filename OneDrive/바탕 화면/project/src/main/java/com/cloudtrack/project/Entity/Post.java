@@ -1,4 +1,4 @@
-package com.cloudtrack.project.domain;
+package com.cloudtrack.project.Entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,11 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.sf.jsqlparser.expression.DateTimeLiteralExpression.DateTime;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 @Entity
 @NoArgsConstructor

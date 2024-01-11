@@ -1,4 +1,4 @@
-package com.cloudtrack.project.domain;
+package com.cloudtrack.project.Entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

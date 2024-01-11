@@ -1,6 +1,6 @@
 package com.cloudtrack.project.service;
 
-import com.cloudtrack.project.domain.Post;
+import com.cloudtrack.project.Entity.Post;
 import com.cloudtrack.project.dto.PostDto;
 import com.cloudtrack.project.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,17 +22,29 @@ public class PostService {
         post.setCreatedDateTime(LocalDateTime.now());
         return postRepository.save(post);
     }
+    public void updatePost(PostDto postDto){
+        Optional<Post> optionalPost = postRepository.findById(postDto.getId());
+        if(optionalPost.isPresent()){
+            Post post = optionalPost.get();
 
-    public Optional<Post> getPostFindById(long postId){
-        return postRepository.findById(postId);
-    }
-
-    public Page<Post> getPostsPage(int page, int size) {
-        Pageable pageable = PageRequest.of(page,size);
-        return postRepository.findAll(pageable);
+            post.setTitle(postDto.getTitle());
+            post.setContent(postDto.getContent());
+            postRepository.save(post);
+        }
     }
 
     public Page<Post> getKoreaTravelPost(Pageable pageable) {
         return postRepository.findByCountryContainsOrCountryContains("korea", "한국", pageable);
+    }
+    public Page<Post> getWorldTravelPost(Pageable pageable) {
+        return postRepository.findAll(pageable);
+    }
+
+    public Optional<Post> findByIdPost(long postId){
+        return postRepository.findById(postId);
+    }
+
+    public void deletePost(long postId){
+        postRepository.deleteById(postId);
     }
 }
