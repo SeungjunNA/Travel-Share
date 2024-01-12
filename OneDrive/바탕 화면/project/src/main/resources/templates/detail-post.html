@@ -45,8 +45,21 @@
     <button>
         <a th:href="@{/travel/post-edit-form/{postId}(postId=${post.id})}">수정하기</a>
     </button>
+    <form th:action="@{/travel/post/{postId}(postId=${post.id})}" method="post">
+        <input type="hidden" name="_method" value="delete" />
+        <button type="submit">삭제하기</button>
+    </form>
 
+
+    <form th:action="@{/comment}" th:object="${commentDto}" method="post">
+        <textarea name="content"></textarea>
+        <button type="submit">댓글 작성</button>
+    </form>
 </main>
+<!--<div th:each="comment : ${comments}">-->
+<!--    <p th:text="${comment.content}"></p>-->
+<!--</div>-->
+
 
 <!-- 부트스트랩 및 자바스크립트 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

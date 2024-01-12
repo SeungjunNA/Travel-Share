@@ -1,9 +1,6 @@
 package com.cloudtrack.project.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -15,4 +12,10 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long commentId;
     private String content;
+    @ManyToOne
+    private String postId;
+
+    public Comment(String content){
+        this.content = content;
+    }
 }
