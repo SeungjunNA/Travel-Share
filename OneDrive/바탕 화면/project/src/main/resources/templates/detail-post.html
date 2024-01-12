@@ -52,6 +52,7 @@
 
 
     <form th:action="@{/comment}" th:object="${commentDto}" method="post">
+        <input type="hidden" name="postId" th:value="${post.id}" />
         <textarea name="content"></textarea>
         <button type="submit">댓글 작성</button>
     </form>
@@ -60,10 +61,5 @@
 <!--    <p th:text="${comment.content}"></p>-->
 <!--</div>-->
 
-
-<!-- 부트스트랩 및 자바스크립트 -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-eLrthJp5ZByXNvrTB5wCGCDvZ8U7nLlbo0VOlT5HqjFwW87fN1oF82yKo1JJNm4C"
-        crossorigin="anonymous"></script>
 </body>
 </html>
