@@ -34,7 +34,8 @@ public class PostService {
     }
 
     public Page<Post> getKoreaTravelPost(Pageable pageable) {
-        return postRepository.findByCountryContainsOrCountryContains("korea", "한국", pageable);
+        return postRepository.findByCountryContainsOrCountryContains
+                ("korea", "한국", pageable);
     }
     public Page<Post> getWorldTravelPost(Pageable pageable) {
         return postRepository.findAll(pageable);

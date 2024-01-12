@@ -97,4 +97,10 @@ public class PostController {
         postService.updatePost(postDto);
         return "home";
     }
+
+    @DeleteMapping("/post/{postId}")
+    public String deletePost(@PathVariable("postId") long postId){
+        postService.deletePost(postId);
+        return "home";
+    }
 }
