@@ -70,6 +70,25 @@ public class PostController {
         return "korea-travel";
     }
 
+    @GetMapping("/abroad")
+    public String getAbroadTravelPost(@PageableDefault(page = 0, size = 10) Pageable pageable, Model model){
+        Page<Post> abroadPosts = postService.getAbroadTravelPost(pageable);
+
+        int page = pageable.getPageNumber();
+        int totalPage = abroadPosts.getTotalPages();
+
+        int preBtn = page==totalPage-1 ? Math.max(0,page-2) : Math.max(0, page-1);
+        int nextBtn = page==0 ? Math.min(page+2, totalPage-1) : Math.min(page+1, totalPage-1);
+
+        model.addAttribute("posts", abroadPosts.getContent());
+        model.addAttribute("preBtn", preBtn);
+        model.addAttribute("nextBtn", nextBtn);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPage);
+
+        return "abroad-travel";
+    }
+
     @GetMapping("/detail-post/{postId}")
     public String getPostDetailPage(@PathVariable("postId") long postId, Model model,
                                     @PageableDefault(size = 2, page = 0) Pageable pageable){

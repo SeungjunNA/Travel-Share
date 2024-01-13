@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -51,5 +53,10 @@ public class PostService {
 
     public Page<Post> getSearchPost(String word, Pageable pageable){
         return postRepository.findByTitleOrContent(word, pageable);
+    }
+
+    public Page<Post> getAbroadTravelPost(Pageable pageable){
+        List<String> country = Arrays.asList("한국", "korea");
+        return postRepository.findAbroadPost(country, pageable);
     }
 }
