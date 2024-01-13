@@ -48,4 +48,8 @@ public class PostService {
     public void deletePost(long postId){
         postRepository.deleteById(postId);
     }
+
+    public Page<Post> getSearchPost(String word, Pageable pageable){
+        return postRepository.findByTitleOrContent(word, pageable);
+    }
 }

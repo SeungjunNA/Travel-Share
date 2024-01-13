@@ -126,6 +126,14 @@ public class PostController {
         return "home";
     }
 
+    @PostMapping("/search")
+    public String searchPost(@RequestParam("word") String word, Model model,
+                             @PageableDefault(size = 2, page = 0) Pageable pageable){
+        Page<Post> searchPosts = postService.getSearchPost(word, pageable);
+        model.addAttribute("posts", searchPosts.getContent());
+        return "world-travel";
+    }
+
     @DeleteMapping("/post/{postId}")
     public String deletePost(@PathVariable("postId") long postId){
         postService.deletePost(postId);
