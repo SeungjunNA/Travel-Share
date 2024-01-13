@@ -13,13 +13,16 @@ import lombok.Setter;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long commentId;
+    private long Id;
+
     private String content;
+
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "postId")
+    @JoinColumn(name = "post_id")
     private Post post;
 
-    public Comment(String content){
+    public Comment(String content) {
         this.content = content;
     }
 }
+

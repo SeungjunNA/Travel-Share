@@ -38,7 +38,7 @@ public class PostService {
                 ("korea", "한국", pageable);
     }
     public Page<Post> getWorldTravelPost(Pageable pageable) {
-        return postRepository.findAll(pageable);
+        return postRepository.findAllByOrderByIdDesc(pageable);
     }
 
     public Optional<Post> findByIdPost(long postId){

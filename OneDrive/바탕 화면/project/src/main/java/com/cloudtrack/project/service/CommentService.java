@@ -7,8 +7,11 @@ import com.cloudtrack.project.repository.CommentRepository;
 import com.cloudtrack.project.repository.PostRepository;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,5 +29,9 @@ public class CommentService {
             comment.setPost(post);
             commentRepository.save(comment);
         }
+    }
+
+    public Page<Comment> getComments(long postId, Pageable pageable){
+        return commentRepository.findByPostIdOrderByIdDesc(postId, pageable);
     }
 }

@@ -57,9 +57,32 @@
         <button type="submit">댓글 작성</button>
     </form>
 </main>
-<!--<div th:each="comment : ${comments}">-->
-<!--    <p th:text="${comment.content}"></p>-->
-<!--</div>-->
+
+<div th:each="comment : ${comments}">
+    <p th:text="${comment.content}"></p>
+    <br>
+</div>
+<div th:if="${totalPages > 0}">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li th:class="${currentPage == 0} ? 'page-item disabled' : 'page-item'">
+                <a class="page-link" th:href="@{${currentPage > 0} ? '/travel/detail-post/' + ${post.id} + '?page=' + ${currentPage - 1} : '/travel/detail-post/' + ${post.id} + '?page=' + ${currentPage}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            <li th:each="pageNumber : ${#numbers.sequence(preBtn, nextBtn)}" th:class="${currentPage == pageNumber} ? 'page-item active' : 'page-item'">
+                <a class="page-link" th:href="@{'/travel/detail-post/' + ${post.id} + '?page=' + ${pageNumber}}" th:text="${pageNumber + 1}"></a>
+            </li>
+
+            <li th:class="${currentPage == totalPages - 1} ? 'page-item disabled' : 'page-item'">
+                <a class="page-link" th:href="@{${currentPage < totalPages - 1} ? '/travel/detail-post/' + ${post.id} + '?page=' + ${currentPage + 1} : '/travel/detail-post/' + ${post.id} + '?page=' + ${currentPage}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
 
 </body>
 </html>

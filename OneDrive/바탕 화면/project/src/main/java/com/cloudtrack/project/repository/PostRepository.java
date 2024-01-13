@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findByCountryContainsOrCountryContains(String country1, String country2, Pageable pageable);
+
+    Page<Post> findAllByOrderByIdDesc(Pageable pageable);
 }

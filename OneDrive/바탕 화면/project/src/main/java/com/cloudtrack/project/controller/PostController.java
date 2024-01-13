@@ -1,7 +1,9 @@
 package com.cloudtrack.project.controller;
 
+import com.cloudtrack.project.Entity.Comment;
 import com.cloudtrack.project.Entity.Post;
 import com.cloudtrack.project.dto.PostDto;
+import com.cloudtrack.project.service.CommentService;
 import com.cloudtrack.project.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,7 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.yaml.snakeyaml.tokens.CommentToken;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -21,6 +25,9 @@ import java.util.Optional;
 public class PostController {
     @Autowired
     private PostService postService;
+    @Autowired
+    CommentService commentService;
+
     @GetMapping
     public String getMainPage(Model model) {
         model.addAttribute("msg", "hello world");
@@ -28,14 +35,14 @@ public class PostController {
     }
 
    @GetMapping("/world")
-    public String getWorldTravelPost(@PageableDefault(size = 2, page = 0, direction = Sort.Direction.DESC) Pageable pageable, Model model){
+    public String getWorldTravelPost(@PageableDefault(size = 2, page = 0) Pageable pageable, Model model){
         Page<Post> worldTravelPosts = postService.getWorldTravelPost(pageable);
 
         int page = pageable.getPageNumber();
         int totalPage = worldTravelPosts.getTotalPages();
 
-        int preBtn = page==totalPage-1 ? page-2 : Math.max(0, page-1);
-        int nextBtn = page==0 ? page+2 : Math.min(page+1, totalPage-1);
+        int preBtn = page==totalPage-1 ? Math.max(0,page-2) : Math.max(0, page-1);
+        int nextBtn = page==0 ? Math.min(page+2, totalPage-1) : Math.min(page+1, totalPage-1);
 
         model.addAttribute("posts", worldTravelPosts.getContent());
         model.addAttribute("preBtn", preBtn);
@@ -46,21 +53,42 @@ public class PostController {
     }
 
     @GetMapping("/korea")
-    public String getKoreaTravelPost(@PageableDefault(page = 0, size = 15,
-            direction = Sort.Direction.DESC) Pageable pageable, Model model) {
-
+    public String getKoreaTravelPost(@PageableDefault(page = 0, size = 10) Pageable pageable, Model model) {
         Page<Post> koreaTravelPosts = postService.getKoreaTravelPost(pageable);
 
+        int page = pageable.getPageNumber();
+        int totalPage = koreaTravelPosts.getTotalPages();
+
+        int preBtn = page==totalPage-1 ? Math.max(0,page-2) : Math.max(0, page-1);
+        int nextBtn = page==0 ? Math.min(page+2, totalPage-1) : Math.min(page+1, totalPage-1);
+
         model.addAttribute("posts", koreaTravelPosts.getContent());
+        model.addAttribute("preBtn", preBtn);
+        model.addAttribute("nextBtn", nextBtn);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPage);
         return "korea-travel";
     }
 
     @GetMapping("/detail-post/{postId}")
-    public String getPostDetailPage(@PathVariable("postId") long postId, Model model){
+    public String getPostDetailPage(@PathVariable("postId") long postId, Model model,
+                                    @PageableDefault(size = 2, page = 0) Pageable pageable){
         Optional<Post> optionalPost = postService.findByIdPost(postId);
         if(optionalPost.isPresent()){
             Post post = optionalPost.get();
             model.addAttribute("post",post);
+            Page<Comment> comments = commentService.getComments(postId, pageable);
+            int page = pageable.getPageNumber();
+            int totalPage = comments.getTotalPages();
+
+            int preBtn = page==totalPage-1 ? Math.max(0,page-2) : Math.max(0, page-1);
+            int nextBtn = page==0 ? Math.min(page+2, totalPage-1) : Math.min(page+1, totalPage-1);
+
+            model.addAttribute("comments", comments.getContent());
+            model.addAttribute("preBtn", preBtn);
+            model.addAttribute("nextBtn", nextBtn);
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", totalPage);
         }
         return "detail-post";
     }
