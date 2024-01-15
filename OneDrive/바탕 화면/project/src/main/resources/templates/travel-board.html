@@ -11,7 +11,10 @@
 <body>
 <div th:insert="~{nav-bar :: nav-bar}"></div>
 <div class="container mt-5">
-  <h1>한국 여행</h1>
+  <h1>여행</h1>
+  <button>
+    <a th:href="@{/travel/create-form}">게시글 작성</a>
+  </button>
   <table class="table">
     <thead>
     <tr>
@@ -22,7 +25,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="post : ${posts}">
+    <tr th:each="post : ${content}">
       <td >
         <a th:text="${post.title}" th:href="@{/travel/detail-post/{postId}(postId=${post.id})}"></a>
       </td>
@@ -32,6 +35,7 @@
       <td th:text="${post.country}"></td>
       <td th:text="${#temporals.format(post.createdDateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
     </tr>
+
     </tbody>
   </table>
   <div th:if="${totalPages > 0}">

@@ -14,13 +14,11 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
-
+    @Column(name = "content")
     private String content;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id")
     private Post post;
-
     public Comment(String content) {
         this.content = content;
     }

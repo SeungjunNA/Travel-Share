@@ -58,7 +58,7 @@
     </form>
 </main>
 
-<div th:each="comment : ${comments}">
+<div th:each="comment : ${content}">
     <p th:text="${comment.content}"></p>
     <br>
 </div>
