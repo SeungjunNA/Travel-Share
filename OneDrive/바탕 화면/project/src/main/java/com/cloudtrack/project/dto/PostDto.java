@@ -13,6 +13,7 @@ public class PostDto {
     private String title;
     private String content;
     private String editPassword;
+    private long boardId;
 
     public PostDto(String title, String content, String editPassword){
         this.title = title;

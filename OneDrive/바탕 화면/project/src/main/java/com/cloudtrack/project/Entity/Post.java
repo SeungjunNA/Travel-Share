@@ -20,7 +20,7 @@ public class Post {
     private LocalDateTime createdDateTime;
     @Column(name = "edit_password")
     private String editPassword;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
     public Post (String title, String content, String editPassword){

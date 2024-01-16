@@ -32,7 +32,7 @@
       <td>
         <a th:text="${post.content}" th:href="@{/travel/detail-post/{postId}(postId=${post.id})}"></a>
       </td>
-      <td th:text="${post.country}"></td>
+      <td >지울거</td>
       <td th:text="${#temporals.format(post.createdDateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
     </tr>
 
@@ -42,17 +42,15 @@
     <nav aria-label="Page navigation">
       <ul class="pagination">
         <li th:class="${currentPage == 0} ? 'page-item disabled' : 'page-item'">
-          <a class="page-link" th:href="@{${currentPage > 0} ? '/travel/world?page=' + ${currentPage - 1} : '/travel/world?page=' + ${currentPage}}" aria-label="Previous">
+          <a class="page-link" th:href="@{|/travel/${boardId}?page=${currentPage -1}|}" aria-label="Next">
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
-
         <li th:each="pageNumber : ${#numbers.sequence(preBtn, nextBtn)}" th:class="${currentPage == pageNumber} ? 'page-item active' : 'page-item'">
-          <a class="page-link" th:href="@{'/travel/world?page=' + ${pageNumber}}" th:text="${pageNumber + 1}"></a>
+          <a class="page-link" th:href="@{|/travel/${boardId}?page=${pageNumber}|}" th:text="${pageNumber + 1}"></a>
         </li>
-
         <li th:class="${currentPage == totalPages - 1} ? 'page-item disabled' : 'page-item'">
-          <a class="page-link" th:href="@{${currentPage < totalPages - 1} ? '/travel/world?page=' + ${currentPage + 1} : '/travel/world?page=' + ${currentPage}}" aria-label="Next">
+          <a class="page-link" th:href="@{|/travel/${boardId}?page=${currentPage + 1}|}" aria-label="Next">
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>

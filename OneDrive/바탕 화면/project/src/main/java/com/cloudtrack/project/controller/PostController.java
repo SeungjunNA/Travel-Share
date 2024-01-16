@@ -34,10 +34,10 @@ public class PostController {
     @Autowired
     private BoardService boardService;
 
-    @GetMapping("/{boardTitle}")
+    @GetMapping("/{boardId}")
     public String getBoard(@PageableDefault(size = 2, page = 0)Pageable pageable, Model model,
-                           @PathVariable String boardTitle){
-        return handleTravelPost(pageable, model, "travel-board", pageableObj -> postService.getPostsByBoardTitle(pageableObj, boardTitle));
+                           @PathVariable long boardId){
+        return handleTravelPost(pageable, model, "travel-board", pageableObj -> postService.getPostsByBoardTitle(pageableObj, boardId));
     }
 
     @GetMapping("/detail-post/{postId}")
@@ -82,35 +82,31 @@ public class PostController {
     public String createPost(@RequestParam String title, @RequestParam String content,
             @RequestParam String editPassword, @RequestParam("boardTitle") String boardTitle){
         PostDto postDto = new PostDto(title, content, editPassword);
-        Post savedPost = postService.createPost(postDto, boardTitle);
+        Long boardId = postService.createPost(postDto, boardTitle);
 
-        if(savedPost == null){
+        if(boardId == null){
             return "redirect:/board/home"; // 게시글 생성 오류시 홈화면으로 리다이렉션
         }
-        return "redirect:/travel/" + boardTitle;
+        return "redirect:/travel/" + boardId;
     }
 
 
     @PostMapping("/post-update")
     public String updatePost(@ModelAttribute("postDto") PostDto postDto){
         postService.updatePost(postDto);
-        return "home";
+        return "redirect:/travel/"+postDto.getBoardId();
     }
 
     @PostMapping("/search")
     public String searchPost(@RequestParam("word") String word, Model model,
                              @PageableDefault(size = 2, page = 0) Pageable pageable){
-        Page<Post> searchPosts = postService.getSearchPost(word, pageable);
-        model.addAttribute("posts", searchPosts.getContent());
-        
-        // 페이지네이션 적용
-        return "world-travel";
+        return handleTravelPost(pageable, model, "travel-board", pageableObj -> postService.getSearchPost(word, pageableObj));
     }
 
     @DeleteMapping("/post/{postId}")
     public String deletePost(@PathVariable("postId") long postId){
         postService.deletePost(postId);
-        return "home";
+        return "redirect:/board/home";
     }
 
     private <T> String handleTravelPost(Pageable pageable, Model model,

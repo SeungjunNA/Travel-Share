@@ -20,18 +20,13 @@ public class PostService {
     @Autowired
     private BoardRepository boardRepository;
 
-    public Post createPost(PostDto postDto, String boardTitle){
+    public long createPost(PostDto postDto, String boardTitle){
         Post post = postDto.toEntity();
         post.setCreatedDateTime(LocalDateTime.now());
         Board board = boardRepository.findByBoardTitle(boardTitle);
         post.setBoard(board);
-        System.out.println(post.getId());
-        System.out.println(post.getTitle());
-        System.out.println(post.getContent());
-        System.out.println(post.getCreatedDateTime());
-        System.out.println(post.getEditPassword());
-        System.out.println(post.getBoard().getTitle());
-        return postRepository.save(post);
+        postRepository.save(post);
+        return board.getId();
     }
     public void updatePost(PostDto postDto){
         Optional<Post> optionalPost = postRepository.findById(postDto.getId());
@@ -44,8 +39,7 @@ public class PostService {
         }
     }
 
-    public Page<Post> getPostsByBoardTitle(Pageable pageable, String boardTitle){
-        long boardId = boardRepository.findBoardId(boardTitle);
+    public Page<Post> getPostsByBoardTitle(Pageable pageable, long boardId){
         return postRepository.findByBoardIdOrderByIdDesc(pageable, boardId);
     }
 
