@@ -28,7 +28,7 @@ public class PostService {
         postRepository.save(post);
         return board.getId();
     }
-    public void updatePost(PostDto postDto){
+    public long updatePost(PostDto postDto){
         Optional<Post> optionalPost = postRepository.findById(postDto.getId());
         if(optionalPost.isPresent()){
             Post post = optionalPost.get();
@@ -36,7 +36,10 @@ public class PostService {
             post.setTitle(postDto.getTitle());
             post.setContent(postDto.getContent());
             postRepository.save(post);
+
+            return post.getId();
         }
+        return 0;
     }
 
     public Page<Post> getPostsByBoardTitle(Pageable pageable, long boardId){
@@ -47,8 +50,16 @@ public class PostService {
         return postRepository.findById(postId);
     }
 
-    public void deletePost(long postId){
+    public long deletePost(long postId){
+        Optional<Post> optionalPost = postRepository.findById(postId);
+
+        if(!optionalPost.isPresent()){
+            throw new RuntimeException("post 게시물 찾기 실패  id : " + postId);
+        }
+        Post post = optionalPost.get();
+        long boardId = post.getBoard().getId();
         postRepository.deleteById(postId);
+        return boardId;
     }
 
     public Page<Post> getSearchPost(String word, Pageable pageable){

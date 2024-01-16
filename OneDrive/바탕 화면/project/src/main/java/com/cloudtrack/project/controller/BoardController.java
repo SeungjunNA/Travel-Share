@@ -29,17 +29,32 @@ public class BoardController {
         model.addAttribute("boardDto", new BoardDto());
         return "create-board";
     }
-//    @GetMapping("/travel/{boardTitle}")
-//    public String getBoard(@PageableDefault(size = 3, page = 0)Pageable pageable, Model model,
-//                           @PathVariable String boardTitle){
-//
-//    }
+
+    @GetMapping("/edit-form/{boardId}")
+    public String update(@PathVariable long boardId, Model model){
+        Board board = boardService.findById(boardId);
+        model.addAttribute("board", board);
+        return "board-edit-form";
+    }
+
     @PostMapping("/create-board")
     public String createBoard(@ModelAttribute("boardDto") BoardDto boardDto){
         Board board = boardService.create(boardDto);
         if(board == null){
           // 에러페이지 or 예외처리?
         }
+        return "redirect:/board/home";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute("boardDto") BoardDto boardDto){
+        long boardId = boardService.update(boardDto);
+        return "redirect:/travel/" + boardId;
+    }
+
+    @DeleteMapping("/delete/{boardId}")
+    public String delete(@PathVariable long boardId){
+        boardService.delete(boardId);
         return "redirect:/board/home";
     }
 }

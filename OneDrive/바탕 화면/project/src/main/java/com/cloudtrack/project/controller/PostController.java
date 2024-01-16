@@ -35,14 +35,16 @@ public class PostController {
     private BoardService boardService;
 
     @GetMapping("/{boardId}")
-    public String getBoard(@PageableDefault(size = 2, page = 0)Pageable pageable, Model model,
+    public String getBoard(@PageableDefault(size = 10, page = 0)Pageable pageable, Model model,
                            @PathVariable long boardId){
+        Board board = boardService.findById(boardId);
+        model.addAttribute("board", board);
         return handleTravelPost(pageable, model, "travel-board", pageableObj -> postService.getPostsByBoardTitle(pageableObj, boardId));
     }
 
     @GetMapping("/detail-post/{postId}")
     public String getPostDetailPage(@PathVariable("postId") long postId, Model model,
-                                    @PageableDefault(size = 2, page = 0) Pageable pageable){
+                                    @PageableDefault(size = 5, page = 0) Pageable pageable){
         Optional<Post> optionalPost = postService.findByIdPost(postId);
         if(optionalPost.isPresent()){
             Post post = optionalPost.get();
@@ -78,7 +80,7 @@ public class PostController {
         return "home";
     }
 
-    @PostMapping("/create-post")
+    @PostMapping("/create-post") // dto사용 해보기
     public String createPost(@RequestParam String title, @RequestParam String content,
             @RequestParam String editPassword, @RequestParam("boardTitle") String boardTitle){
         PostDto postDto = new PostDto(title, content, editPassword);
@@ -93,8 +95,8 @@ public class PostController {
 
     @PostMapping("/post-update")
     public String updatePost(@ModelAttribute("postDto") PostDto postDto){
-        postService.updatePost(postDto);
-        return "redirect:/travel/"+postDto.getBoardId();
+        long boardId = postService.updatePost(postDto);
+        return "redirect:/travel/detail-post/"+postDto.getId();
     }
 
     @PostMapping("/search")
@@ -105,8 +107,8 @@ public class PostController {
 
     @DeleteMapping("/post/{postId}")
     public String deletePost(@PathVariable("postId") long postId){
-        postService.deletePost(postId);
-        return "redirect:/board/home";
+        long boardId = postService.deletePost(postId);
+        return "redirect:/travel/" + boardId;
     }
 
     private <T> String handleTravelPost(Pageable pageable, Model model,

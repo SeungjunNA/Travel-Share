@@ -30,14 +30,10 @@ public class BoardRepository {
         String sql = "select * from board order by id desc";
         return jdbcTemplate.query(sql, boardRowMapper());
     }
-
-    public int findBoardId(String title){
-        String sql = "select id from board where title = ?";
-        int n = jdbcTemplate.queryForObject(sql, Integer.class, title);
-        System.out.println(n);
-        return n;
+    public Board findById(long id){
+        String sql = "select * from board where id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, boardRowMapper());
     }
-
     public Board findByBoardTitle(String title){
         String sql = "select * from board where title = ?";
         return jdbcTemplate.queryForObject(sql, new Object[] {title}, boardRowMapper());
@@ -60,4 +56,28 @@ public class BoardRepository {
                 .id(key.longValue())
                 .build();
     }
+        public Board update(Board board){
+            String sql = "update board set title = ?, description = ? where id = ?";
+
+            int updatedRow = jdbcTemplate.update(
+                    connection -> {
+                        PreparedStatement ps = connection.prepareStatement(sql);
+                        ps.setString(1, board.getTitle());
+                        ps.setString(2, board.getDescription());
+                        ps.setLong(3, board.getId());
+                        return ps;
+                    }
+            );
+
+            if(updatedRow > 0){
+                return board;
+            }else {
+                throw new RuntimeException("게시판 수정 실패 id : " + updatedRow);
+            }
+        }
+        public void delete(long boardId){
+            String sql = "delete from board where id = ?";
+            jdbcTemplate.update(sql, boardId);
+        }
+
 }

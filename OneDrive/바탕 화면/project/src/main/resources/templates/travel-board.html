@@ -11,9 +11,18 @@
 <body>
 <div th:insert="~{nav-bar :: nav-bar}"></div>
 <div class="container mt-5">
-  <h1>여행</h1>
-  <button>
-    <a th:href="@{/travel/create-form}">게시글 작성</a>
+  <h1 th:text="${board.title}"></h1>
+  <div class="d-flex">
+    <button class="btn btn-outline-primary lh-1 ms-auto">
+      <a  th:href="@{|/board/edit-form/${boardId}|}" style="text-decoration-line: none;">수정하기</a>
+    </button>
+    <form th:action="@{/board/delete/{boardId}(boardId=${board.id})}" method="post">
+      <input type="hidden" name="_method" value="delete" />
+      <button type="submit" class="btn btn-outline-danger lh-1">삭제하기</button>
+    </form>
+  </div>
+  <button class="btn btn-primary">
+    <a th:href="@{/travel/create-form}" style="text-decoration-line: none; color: white">게시글 작성</a>
   </button>
   <table class="table">
     <thead>
@@ -27,10 +36,10 @@
     <tbody>
     <tr th:each="post : ${content}">
       <td >
-        <a th:text="${post.title}" th:href="@{/travel/detail-post/{postId}(postId=${post.id})}"></a>
+        <a th:text="${post.title}" th:href="@{/travel/detail-post/{postId}(postId=${post.id})}" style="text-decoration-line: none;"></a>
       </td>
       <td>
-        <a th:text="${post.content}" th:href="@{/travel/detail-post/{postId}(postId=${post.id})}"></a>
+        <a th:text="${post.content}" th:href="@{/travel/detail-post/{postId}(postId=${post.id})}" style="text-decoration-line: none;"></a>
       </td>
       <td >지울거</td>
       <td th:text="${#temporals.format(post.createdDateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>

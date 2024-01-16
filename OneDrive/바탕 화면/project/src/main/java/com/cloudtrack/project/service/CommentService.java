@@ -32,4 +32,14 @@ public class CommentService {
     public Page<Comment> getComments(long postId, Pageable pageable){
         return commentRepository.findByPostIdOrderByIdDesc(postId, pageable);
     }
+
+    public long delete(long commentId){
+        Optional<Comment> optionalComment = commentRepository.findById(commentId);
+        if(!optionalComment.isPresent()){
+            throw new RuntimeException("댓글 찾기 실패 id : " + commentId);
+        }
+        Comment comment = optionalComment.get();
+        commentRepository.delete(comment);
+        return comment.getPost().getId();
+    }
 }

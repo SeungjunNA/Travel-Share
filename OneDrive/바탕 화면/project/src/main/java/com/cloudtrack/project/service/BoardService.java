@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BoardService {
@@ -19,5 +20,19 @@ public class BoardService {
 
     public List<Board> findAll(){
         return boardRepository.findAll();
+    }
+    public Board findById(long boardId){
+        return boardRepository.findById(boardId);
+    }
+
+    public long update(BoardDto boardDto){
+        Board board = boardRepository.findById(boardDto.getId());
+        board.setTitle(boardDto.getTitle());
+        board.setDescription(boardDto.getDescription());
+        Board savedBoard = boardRepository.update(board);
+        return savedBoard.getId();
+    }
+    public void delete(long boardId){
+        boardRepository.delete(boardId);
     }
 }
