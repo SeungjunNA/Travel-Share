@@ -1,6 +1,6 @@
 package com.cloudtrack.project.repository;
 
-import com.cloudtrack.project.Entity.Board;
+import com.cloudtrack.project.entity.Board;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

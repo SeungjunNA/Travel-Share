@@ -10,21 +10,27 @@
 <body>
 <div th:insert="~{nav-bar :: nav-bar}"></div>
 
-<button>
-    <a th:href="@{/travel/create-form}" style="text-decoration-line: none;">게시글 작성</a>
-</button>
-<button>
-    <a th:href="@{/board/create-form}" style="text-decoration-line: none;">게시판 작성</a>
-</button>
+<div  class="container d-flex justify-content-center align-items-center" style="margin-top:20px">
+    <button class="btn btn-primary mx-2">
+        <a th:href="@{/travel/create-form}" class="text-white text-decoration-none">게시글 작성</a>
+    </button>
+    <button class="btn btn-success mx-2">
+        <a th:href="@{/board/create-form}" class="text-white text-decoration-none">게시판 작성</a>
+    </button>
+</div>
 
-<div class="row row-cols-1 row-cols-md-2 g-4">
-    <div th:each="board : ${boards}" class="col">
-        <a th:href="@{/travel/{boardId}(boardId=${board.id})}" style="text-decoration: none; color: inherit;">
-            <div class="card">
-                <h5 class="card-title" th:text="${board.getTitle()}"></h5>
-                <p class="card-text" th:text="${board.getDescription()}"></p>
-            </div>
-        </a>
+<div class="container mt-5">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div th:each="board : ${boards}" class="col mb-4">
+            <a th:href="@{/travel/{boardId}(boardId=${board.id})}" style="text-decoration: none; color: inherit;">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${board.getTitle()}"></h5>
+                        <p class="card-text" th:text="${board.getDescription()}"></p>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
 </div>
 </body>

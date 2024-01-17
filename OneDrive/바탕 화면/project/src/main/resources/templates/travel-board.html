@@ -12,7 +12,7 @@
 <div th:insert="~{nav-bar :: nav-bar}"></div>
 <div class="container mt-5">
   <h1 th:text="${board.title}"></h1>
-  <div class="d-flex">
+  <div class="d-flex" th:if="${board.id > 2}">
     <button class="btn btn-outline-primary lh-1 ms-auto">
       <a  th:href="@{|/board/edit-form/${boardId}|}" style="text-decoration-line: none;">수정하기</a>
     </button>
@@ -29,7 +29,6 @@
     <tr>
       <th style="width:20%;">Title</th>
       <th style="width:50%;">Content</th>
-      <th style="width:15%;">Country</th>
       <th style="width:15%;">DateTime</th>
     </tr>
     </thead>
@@ -41,8 +40,7 @@
       <td>
         <a th:text="${post.content}" th:href="@{/travel/detail-post/{postId}(postId=${post.id})}" style="text-decoration-line: none;"></a>
       </td>
-      <td >지울거</td>
-      <td th:text="${#temporals.format(post.createdDateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+<!--      <td th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>-->
     </tr>
 
     </tbody>

@@ -1,14 +1,12 @@
-package com.cloudtrack.project.Entity;
+package com.cloudtrack.project.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @NoArgsConstructor
 @Getter @Setter
-public class Post {
+public class Post{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -16,8 +14,6 @@ public class Post {
     private String title;
     @Column(name = "content")
     private String content;
-    @Column(name = "created_date_time")
-    private LocalDateTime createdDateTime;
     @Column(name = "edit_password")
     private String editPassword;
     @ManyToOne

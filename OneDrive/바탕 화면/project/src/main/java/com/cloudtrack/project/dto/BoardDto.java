@@ -1,7 +1,7 @@
 package com.cloudtrack.project.dto;
 
-import com.cloudtrack.project.Entity.Board;
-import com.cloudtrack.project.Entity.Post;
+import com.cloudtrack.project.entity.Board;
+import com.cloudtrack.project.entity.Post;
 import lombok.Getter;
 import lombok.Setter;
 

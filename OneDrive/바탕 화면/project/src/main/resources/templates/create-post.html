@@ -9,31 +9,49 @@
 </head>
 <body>
 <div th:insert="~{nav-bar :: nav-bar}"></div>
-<div>
-  <h2>새로운 게시글 작성</h2>
+
+<div class="container my-5">
+  <div class="header mb-5">
+    <h1 class="text-center">게시글 추가</h1>
+  </div>
   <form th:action="@{/travel/create-post}" method="post">
-    <label for="title">제목:</label>
-    <input type="text" id="title" name="title" required/>
-    <br/>
-
-    <label for="content">내용:</label>
-    <textarea id="content" name="content" required></textarea>
-    <br/>
-
+    <div class="mb-3">
+      <label for="title">제목:</label>
+      <input
+              type="text"
+              class="form-control"
+              id="title"
+              name="title"
+              maxlength="30"
+              placeholder="게시글 제목 입력 (최대 30자)"
+              required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="content">내용</label>
+      <textarea
+              class="form-control"
+              id="content"
+              name="content"
+              placeholder="내용 입력 (최대 1000자)"
+              maxlength="1000"
+      ></textarea>
+    </div>
     <label for="editPassword">비밀번호:</label>
     <input type="password" id="editPassword" name="editPassword" required/>
     <br/>
-
     <label for="boardTitle">게시판 선택:</label>
     <select id="boardTitle" name="boardTitle">
       <option th:each="board : ${boards}" th:value="${board.title}" th:text="${board.title}"></option>
     </select>
     <br/>
-
-    <button type="submit">게시글 작성</button>
+    <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="window.history.back();"
+    >이전</button>
+    <button type="submit" class="btn btn-primary">게시판 작성</button>
   </form>
-
 </div>
-
 </body>
 </html>

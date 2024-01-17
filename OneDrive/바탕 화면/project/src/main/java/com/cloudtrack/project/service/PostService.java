@@ -1,7 +1,7 @@
 package com.cloudtrack.project.service;
 
-import com.cloudtrack.project.Entity.Board;
-import com.cloudtrack.project.Entity.Post;
+import com.cloudtrack.project.entity.Board;
+import com.cloudtrack.project.entity.Post;
 import com.cloudtrack.project.dto.PostDto;
 import com.cloudtrack.project.repository.BoardRepository;
 import com.cloudtrack.project.repository.PostRepository;
@@ -22,7 +22,6 @@ public class PostService {
 
     public long createPost(PostDto postDto, String boardTitle){
         Post post = postDto.toEntity();
-        post.setCreatedDateTime(LocalDateTime.now());
         Board board = boardRepository.findByBoardTitle(boardTitle);
         post.setBoard(board);
         postRepository.save(post);

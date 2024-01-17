@@ -1,13 +1,12 @@
 package com.cloudtrack.project.service;
 
-import com.cloudtrack.project.Entity.Board;
+import com.cloudtrack.project.entity.Board;
 import com.cloudtrack.project.dto.BoardDto;
 import com.cloudtrack.project.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BoardService {

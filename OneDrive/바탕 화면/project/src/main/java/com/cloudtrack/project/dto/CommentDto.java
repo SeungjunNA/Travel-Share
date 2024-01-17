@@ -1,6 +1,6 @@
 package com.cloudtrack.project.dto;
 
-import com.cloudtrack.project.Entity.Comment;
+import com.cloudtrack.project.entity.Comment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

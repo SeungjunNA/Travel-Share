@@ -1,4 +1,4 @@
-package com.cloudtrack.project.Entity;
+package com.cloudtrack.project.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,13 +10,13 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
-public class Comment {
+public class Comment{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
     @Column(name = "content")
     private String content;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
     public Comment(String content) {

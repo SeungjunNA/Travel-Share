@@ -14,7 +14,7 @@
     <div class="container border rounded p-4 position-relative">
         <div class="header mb-3">
             <h2 class="text-start" th:text="${post.title}">게시글 제목</h2>
-            <p class="lead" th:text="${#temporals.format(post.createdDateTime, 'yyyy-MM-dd HH:mm')}"></p>
+<!--            <p class="lead" th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></p>-->
             <div class="d-flex">
                 <button class="btn btn-outline-primary lh-1 ms-auto">
                     <a th:href="@{/travel/post-edit-form/{postId}(postId=${post.id})}" style="text-decoration-line: none;">수정하기</a>
@@ -49,7 +49,7 @@
                                 <button class="btn btn-outline-primary lh-1 ms-auto">
                                     <a href="#" style="text-decoration-line: none;">수정하기</a>
                                 </button>
-                                <form th:action="@{/comment/delete/{commentId}(commentId=${comment.id})}" method="post">
+                                <form th:action="@{/comment/{commentId}(commentId=${comment.id})}" method="post">
                                     <input type="hidden" name="_method" value="delete" />
                                     <button type="submit" class="btn btn-outline-danger lh-1">삭제하기</button>
                                 </form>

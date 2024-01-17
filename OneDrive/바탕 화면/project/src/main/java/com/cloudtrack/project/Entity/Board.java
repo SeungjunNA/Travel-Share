@@ -1,4 +1,4 @@
-package com.cloudtrack.project.Entity;
+package com.cloudtrack.project.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class Board {
+public class Board{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

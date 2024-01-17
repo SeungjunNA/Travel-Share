@@ -1,7 +1,7 @@
 package com.cloudtrack.project.service;
 
-import com.cloudtrack.project.Entity.Comment;
-import com.cloudtrack.project.Entity.Post;
+import com.cloudtrack.project.entity.Comment;
+import com.cloudtrack.project.entity.Post;
 import com.cloudtrack.project.dto.CommentDto;
 import com.cloudtrack.project.repository.CommentRepository;
 import com.cloudtrack.project.repository.PostRepository;
@@ -35,11 +35,13 @@ public class CommentService {
 
     public long delete(long commentId){
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
+        System.out.println("댓글 삭제");
         if(!optionalComment.isPresent()){
             throw new RuntimeException("댓글 찾기 실패 id : " + commentId);
         }
         Comment comment = optionalComment.get();
-        commentRepository.delete(comment);
-        return comment.getPost().getId();
+        long postId = comment.getPost().getId();
+        commentRepository.deleteById(commentId);
+        return postId;
     }
 }

@@ -1,24 +1,18 @@
 package com.cloudtrack.project.controller;
 
-import com.cloudtrack.project.Entity.Board;
-import com.cloudtrack.project.Entity.Comment;
-import com.cloudtrack.project.Entity.Post;
+import com.cloudtrack.project.entity.Board;
+import com.cloudtrack.project.entity.Post;
 import com.cloudtrack.project.dto.PostDto;
 import com.cloudtrack.project.service.BoardService;
 import com.cloudtrack.project.service.CommentService;
 import com.cloudtrack.project.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.yaml.snakeyaml.tokens.CommentToken;
 
 import java.util.List;
 import java.util.Optional;
