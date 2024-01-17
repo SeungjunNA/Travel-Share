@@ -30,14 +30,14 @@ public class PostController {
 
     @GetMapping("/{boardId}")
     public String getBoard(@PageableDefault(size = 10, page = 0)Pageable pageable, Model model,
-                           @PathVariable long boardId){
+                           @PathVariable(name = "boardId") long boardId){
         Board board = boardService.findById(boardId);
         model.addAttribute("board", board);
         return handleTravelPost(pageable, model, "travel-board", pageableObj -> postService.getPostsByBoardTitle(pageableObj, boardId));
     }
 
     @GetMapping("/detail-post/{postId}")
-    public String getPostDetailPage(@PathVariable("postId") long postId, Model model,
+    public String getPostDetailPage(@PathVariable(name = "postId") long postId, Model model,
                                     @PageableDefault(size = 5, page = 0) Pageable pageable){
         Optional<Post> optionalPost = postService.findByIdPost(postId);
         if(optionalPost.isPresent()){
@@ -60,7 +60,7 @@ public class PostController {
     }
 
     @GetMapping("/post-edit-form/{postId}")
-    public String editPost(@PathVariable("postId") long postId, Model model){
+    public String editPost(@PathVariable(name = "postId") long postId, Model model){
         Optional<Post> optionalPost = postService.findByIdPost(postId);
 
         if(optionalPost.isPresent()){
@@ -75,8 +75,8 @@ public class PostController {
     }
 
     @PostMapping("/create-post") // dto사용 해보기
-    public String createPost(@RequestParam String title, @RequestParam String content,
-            @RequestParam String editPassword, @RequestParam("boardTitle") String boardTitle){
+    public String createPost(@RequestParam(name = "title") String title, @RequestParam(name = "content") String content,
+            @RequestParam(name = "editPassword") String editPassword, @RequestParam(name = "boardTitle") String boardTitle){
         PostDto postDto = new PostDto(title, content, editPassword);
         Long boardId = postService.createPost(postDto, boardTitle);
 
@@ -88,19 +88,19 @@ public class PostController {
 
 
     @PostMapping("/post-update")
-    public String updatePost(@ModelAttribute("postDto") PostDto postDto){
+    public String updatePost(@ModelAttribute(name = "postDto") PostDto postDto){
         long boardId = postService.updatePost(postDto);
         return "redirect:/travel/detail-post/"+postDto.getId();
     }
 
     @PostMapping("/search")
-    public String searchPost(@RequestParam("word") String word, Model model,
+    public String searchPost(@RequestParam(name = "word") String word, Model model,
                              @PageableDefault(size = 2, page = 0) Pageable pageable){
         return handleTravelPost(pageable, model, "travel-board", pageableObj -> postService.getSearchPost(word, pageableObj));
     }
 
     @DeleteMapping("/post/{postId}")
-    public String deletePost(@PathVariable("postId") long postId){
+    public String deletePost(@PathVariable(name = "postId") long postId){
         long boardId = postService.deletePost(postId);
         return "redirect:/travel/" + boardId;
     }

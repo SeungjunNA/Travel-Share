@@ -29,14 +29,14 @@ public class BoardController {
     }
 
     @GetMapping("/edit-form/{boardId}")
-    public String update(@PathVariable long boardId, Model model){
+    public String update(@PathVariable(name = "boardId") long boardId, Model model){
         Board board = boardService.findById(boardId);
         model.addAttribute("board", board);
         return "board-edit-form";
     }
 
     @PostMapping("/create-board")
-    public String createBoard(@ModelAttribute("boardDto") BoardDto boardDto){
+    public String createBoard(@ModelAttribute(name = "boardDto") BoardDto boardDto){
         Board board = boardService.create(boardDto);
         if(board == null){
           // 에러페이지 or 예외처리?
@@ -45,13 +45,13 @@ public class BoardController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute("boardDto") BoardDto boardDto){
+    public String update(@ModelAttribute(name = "boardDto") BoardDto boardDto){
         long boardId = boardService.update(boardDto);
         return "redirect:/travel/" + boardId;
     }
 
     @DeleteMapping("/delete/{boardId}")
-    public String delete(@PathVariable long boardId){
+    public String delete(@PathVariable(name = "boardId") long boardId){
         boardService.delete(boardId);
         return "redirect:/board/home";
     }

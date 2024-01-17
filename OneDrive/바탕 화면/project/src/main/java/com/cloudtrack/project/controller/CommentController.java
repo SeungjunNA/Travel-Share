@@ -12,12 +12,19 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
     @PostMapping("/create")
-    public String create(@ModelAttribute("commentDto") CommentDto commentDto, @RequestParam("postId") long postId){
-        commentService.createComment(commentDto, postId);
+    public String create(@ModelAttribute(name = "commentDto") CommentDto commentDto, @RequestParam(name = "postId") long postId){
+        try {
+            if(commentDto.getContent().trim().equals("")){
+                throw new IllegalArgumentException("문자를 포함하여 입력해주세요.(공백만 입력 불가)");
+            }
+            commentService.createComment(commentDto, postId);
+        }catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
         return "redirect:/travel/detail-post/"+postId;
     }
     @DeleteMapping("/{commentId}")
-    public String delete(@PathVariable long commentId){
+    public String delete(@PathVariable(name = "commentId") long commentId){
         long postId = commentService.delete(commentId);
         return "redirect:/travel/detail-post/"+postId;
     }

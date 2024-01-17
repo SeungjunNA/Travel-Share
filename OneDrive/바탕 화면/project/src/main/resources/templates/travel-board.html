@@ -24,6 +24,14 @@
   <button class="btn btn-primary">
     <a th:href="@{/travel/create-form}" style="text-decoration-line: none; color: white">게시글 작성</a>
   </button>
+  <form class="d-flex" th:action="@{/travel/search}" method="post" role="search">
+    <div class="col-6">
+      <input class="form-control me-2" type="search" name="word" placeholder="Search" aria-label="Search">
+    </div>
+    <div class="col-6">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </div>
+  </form>
   <table class="table">
     <thead>
     <tr>
@@ -40,7 +48,7 @@
       <td>
         <a th:text="${post.content}" th:href="@{/travel/detail-post/{postId}(postId=${post.id})}" style="text-decoration-line: none;"></a>
       </td>
-<!--      <td th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>-->
+      <td th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
     </tr>
 
     </tbody>
