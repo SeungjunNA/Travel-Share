@@ -10,18 +10,15 @@ public class Post extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "title")
+    @Column(length = 30)
     private String title;
-    @Column(name = "content")
+    @Column(length = 1000)
     private String content;
-    @Column(name = "edit_password")
-    private String editPassword;
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
-    public Post (String title, String content, String editPassword){
+    public Post (String title, String content){
         this.title = title;
         this.content = content;
-        this.editPassword = editPassword;
     }
 }

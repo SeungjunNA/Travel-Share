@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findByBoardIdOrderByIdDesc(Pageable pageable, Long boardId);
-    @Query("SELECT p FROM Post p WHERE p.title LIKE %:word% OR p.content LIKE %:word% Order By p.id DESC")
-    Page<Post> findByTitleOrContent(@Param("word") String word, Pageable pageable);
+
+    @Query(value = "SELECT * FROM Post p WHERE p.board_id = :boardId AND (p.title LIKE %:word% OR p.content LIKE %:word%) Order By p.id DESC", nativeQuery = true)
+    Page<Post> findByBoardIdAndTitleOrContent(@Param("boardId") long boardId, @Param("word") String word, Pageable pageable);
 }

@@ -11,7 +11,7 @@
 <div th:insert="~{nav-bar :: nav-bar}"></div>
 
 <div  class="container d-flex justify-content-center align-items-center" style="margin-top:20px">
-    <button class="btn btn-primary mx-2">
+    <button  th:if="${boards.size>0}" class="btn btn-primary mx-2">
         <a th:href="@{/travel/create-form}" class="text-white text-decoration-none">게시글 작성</a>
     </button>
     <button class="btn btn-success mx-2">

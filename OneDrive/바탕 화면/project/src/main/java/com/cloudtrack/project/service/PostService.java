@@ -20,16 +20,17 @@ public class PostService {
     @Autowired
     private BoardRepository boardRepository;
 
-    public long createPost(PostDto postDto, String boardTitle){
+    public long createPost(PostDto postDto, String boardTitle) {
         Post post = postDto.toEntity();
         Board board = boardRepository.findByBoardTitle(boardTitle);
         post.setBoard(board);
         postRepository.save(post);
         return board.getId();
     }
-    public long updatePost(PostDto postDto){
+
+    public long updatePost(PostDto postDto) {
         Optional<Post> optionalPost = postRepository.findById(postDto.getId());
-        if(optionalPost.isPresent()){
+        if (optionalPost.isPresent()) {
             Post post = optionalPost.get();
 
             post.setTitle(postDto.getTitle());
@@ -41,18 +42,18 @@ public class PostService {
         return 0;
     }
 
-    public Page<Post> getPostsByBoardTitle(Pageable pageable, long boardId){
+    public Page<Post> getPostsByBoardTitle(Pageable pageable, long boardId) {
         return postRepository.findByBoardIdOrderByIdDesc(pageable, boardId);
     }
 
-    public Optional<Post> findByIdPost(long postId){
+    public Optional<Post> findByIdPost(long postId) {
         return postRepository.findById(postId);
     }
 
-    public long deletePost(long postId){
+    public long deletePost(long postId) {
         Optional<Post> optionalPost = postRepository.findById(postId);
 
-        if(!optionalPost.isPresent()){
+        if (!optionalPost.isPresent()) {
             throw new RuntimeException("post 게시물 찾기 실패  id : " + postId);
         }
         Post post = optionalPost.get();
@@ -61,7 +62,7 @@ public class PostService {
         return boardId;
     }
 
-    public Page<Post> getSearchPost(String word, Pageable pageable){
-        return postRepository.findByTitleOrContent(word, pageable);
+    public Page<Post> getSearchPost(long boardId, String word, Pageable pageable){
+        return postRepository.findByBoardIdAndTitleOrContent(boardId, word, pageable);
     }
 }

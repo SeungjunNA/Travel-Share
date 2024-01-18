@@ -12,15 +12,13 @@ public class PostDto {
     private long id;
     private String title;
     private String content;
-    private String editPassword;
     private long boardId;
 
-    public PostDto(String title, String content, String editPassword){
+    public PostDto(String title, String content){
         this.title = title;
         this.content = content;
-        this.editPassword = editPassword;
     }
     public Post toEntity(){
-        return new Post(title, content, editPassword);
+        return new Post(title, content);
     }
 }

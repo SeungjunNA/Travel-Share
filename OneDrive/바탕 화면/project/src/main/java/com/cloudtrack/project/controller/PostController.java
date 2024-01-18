@@ -76,10 +76,9 @@ public class PostController {
 
     @PostMapping("/create-post") // dto사용 해보기
     public String createPost(@RequestParam(name = "title") String title, @RequestParam(name = "content") String content,
-            @RequestParam(name = "editPassword") String editPassword, @RequestParam(name = "boardTitle") String boardTitle){
-        PostDto postDto = new PostDto(title, content, editPassword);
+                             @RequestParam(name = "boardTitle") String boardTitle){
+        PostDto postDto = new PostDto(title, content);
         Long boardId = postService.createPost(postDto, boardTitle);
-
         if(boardId == null){
             return "redirect:/board/home"; // 게시글 생성 오류시 홈화면으로 리다이렉션
         }
@@ -93,10 +92,13 @@ public class PostController {
         return "redirect:/travel/detail-post/"+postDto.getId();
     }
 
-    @PostMapping("/search")
-    public String searchPost(@RequestParam(name = "word") String word, Model model,
-                             @PageableDefault(size = 2, page = 0) Pageable pageable){
-        return handleTravelPost(pageable, model, "travel-board", pageableObj -> postService.getSearchPost(word, pageableObj));
+    @GetMapping("/search/{boardId}")
+    public String searchPost(@RequestParam(name = "word") String word, @PathVariable(name = "boardId") long boardId,
+                             Model model, @PageableDefault(size = 2, page = 0) Pageable pageable){
+        Board board = boardService.findById(boardId);
+        model.addAttribute("board", board);
+        model.addAttribute("word", word);
+        return handleTravelPost(pageable, model, "travel-board", pageableObj -> postService.getSearchPost(boardId,  word, pageableObj));
     }
 
     @DeleteMapping("/post/{postId}")

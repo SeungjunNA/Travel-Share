@@ -16,9 +16,9 @@ public class Board{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column
+    @Column(length = 30)
     private String title;
-    @Column
+    @Column(length = 100)
     private String description;
     @OneToMany(mappedBy = "board")
     private List<Post> posts = new ArrayList<>();

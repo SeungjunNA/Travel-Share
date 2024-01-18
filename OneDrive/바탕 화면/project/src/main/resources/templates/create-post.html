@@ -15,6 +15,11 @@
     <h1 class="text-center">게시글 추가</h1>
   </div>
   <form th:action="@{/travel/create-post}" method="post">
+    <label for="boardTitle">게시판 선택:</label>
+    <select id="boardTitle" name="boardTitle">
+      <option th:each="board : ${boards}" th:value="${board.title}" th:text="${board.title}"></option>
+    </select>
+    <br/>
     <div class="mb-3">
       <label for="title">제목:</label>
       <input
@@ -36,21 +41,13 @@
               placeholder="내용 입력 (최대 1000자)"
               maxlength="1000"
       ></textarea>
-    </div>
-    <label for="editPassword">비밀번호:</label>
-    <input type="password" id="editPassword" name="editPassword" required/>
-    <br/>
-    <label for="boardTitle">게시판 선택:</label>
-    <select id="boardTitle" name="boardTitle">
-      <option th:each="board : ${boards}" th:value="${board.title}" th:text="${board.title}"></option>
-    </select>
     <br/>
     <button
             type="button"
             class="btn btn-secondary"
             onclick="window.history.back();"
     >이전</button>
-    <button type="submit" class="btn btn-primary">게시판 작성</button>
+    <button type="submit" class="btn btn-primary">게시글 작성</button>
   </form>
 </div>
 </body>

@@ -19,7 +19,7 @@
                 <button class="btn btn-outline-primary lh-1 ms-auto">
                     <a th:href="@{/travel/post-edit-form/{postId}(postId=${post.id})}" style="text-decoration-line: none;">수정하기</a>
                 </button>
-                <form th:action="@{/travel/post/{postId}(postId=${post.id})}" method="post">
+                <form th:action="@{/travel/post/{postId}(postId=${post.id})}" method="post" onsubmit="return delCheck();">
                     <input type="hidden" name="_method" value="delete" />
                     <button type="submit" class="btn btn-outline-danger lh-1">삭제하기</button>
                 </form>
@@ -90,7 +90,6 @@
                     name="content"
                     cols="6"
                     placeholder="댓글 작성하기 (최대 100자)"
-                    maxlength="100"
                     style="margin-bottom:10px;"
             ></textarea>
             <button class="btn btn-primary" type="submit">댓글 작성</button>
@@ -98,8 +97,14 @@
 
     </div>
 </div>
-<!-- 메인 컨텐츠 -->
-
-
+<script th:inline="javascript">
+                    function delCheck(){
+                        if(confirm('삭제하시겠습니까?')){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                    }
+                </script>
 </body>
 </html>

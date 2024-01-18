@@ -16,6 +16,8 @@ public class CommentController {
         try {
             if(commentDto.getContent().trim().equals("")){
                 throw new IllegalArgumentException("문자를 포함하여 입력해주세요.(공백만 입력 불가)");
+            }else if(commentDto.getContent().trim().length()>100){
+                throw new IllegalArgumentException("100자 이내로 작성해주세요.");
             }
             commentService.createComment(commentDto, postId);
         }catch (IllegalArgumentException e){
