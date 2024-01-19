@@ -38,8 +38,13 @@ public class BoardController {
     @PostMapping("/create-board")
     public String createBoard(@ModelAttribute(name = "boardDto") BoardDto boardDto){
         Board board = boardService.create(boardDto);
-        if(board == null){
-          // 에러페이지 or 예외처리?
+        try {
+            if(board == null){
+                throw new RuntimeException("post 게시글 생성 실패");
+            }
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage());
+            return "redirect:/board/home";
         }
         return "redirect:/board/home";
     }

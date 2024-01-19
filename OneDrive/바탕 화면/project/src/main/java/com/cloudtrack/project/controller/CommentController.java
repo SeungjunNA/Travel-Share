@@ -27,7 +27,11 @@ public class CommentController {
     }
     @DeleteMapping("/{commentId}")
     public String delete(@PathVariable(name = "commentId") long commentId){
+        int page = commentService.afterDeletePage(commentId);
         long postId = commentService.delete(commentId);
-        return "redirect:/travel/detail-post/"+postId;
+        if (postId == 0){
+            return "redirect:/board/home";
+        }
+        return "redirect:/travel/detail-post/"+postId+"?page="+page;
     }
 }

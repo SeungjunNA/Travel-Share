@@ -23,6 +23,14 @@ public class PostService {
     public long createPost(PostDto postDto, String boardTitle) {
         Post post = postDto.toEntity();
         Board board = boardRepository.findByBoardTitle(boardTitle);
+        try {
+            if(board == null){
+                throw new RuntimeException(boardTitle + "게시판 찾기 실패");
+            }
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage());
+            return 0;
+        }
         post.setBoard(board);
         postRepository.save(post);
         return board.getId();
@@ -30,16 +38,19 @@ public class PostService {
 
     public long updatePost(PostDto postDto) {
         Optional<Post> optionalPost = postRepository.findById(postDto.getId());
-        if (optionalPost.isPresent()) {
-            Post post = optionalPost.get();
-
-            post.setTitle(postDto.getTitle());
-            post.setContent(postDto.getContent());
-            postRepository.save(post);
-
-            return post.getId();
+        try {
+            if (!optionalPost.isPresent()) {
+                throw new RuntimeException("post 게시물 찾기 실패 id : " + postDto.getId());
+            }
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage());
+            return 0;
         }
-        return 0;
+        Post post = optionalPost.get();
+        post.setTitle(postDto.getTitle());
+        post.setContent(postDto.getContent());
+        postRepository.save(post);
+        return post.getId();
     }
 
     public Page<Post> getPostsByBoardTitle(Pageable pageable, long boardId) {
@@ -52,9 +63,13 @@ public class PostService {
 
     public long deletePost(long postId) {
         Optional<Post> optionalPost = postRepository.findById(postId);
-
-        if (!optionalPost.isPresent()) {
-            throw new RuntimeException("post 게시물 찾기 실패  id : " + postId);
+        try {
+            if (!optionalPost.isPresent()) {
+                throw new RuntimeException("post 게시물 찾기 실패  id : " + postId);
+            }
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage());
+            return 0;
         }
         Post post = optionalPost.get();
         long boardId = post.getBoard().getId();

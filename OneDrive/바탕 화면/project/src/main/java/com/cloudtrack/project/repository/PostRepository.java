@@ -14,4 +14,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query(value = "SELECT * FROM Post p WHERE p.board_id = :boardId AND (p.title LIKE %:word% OR p.content LIKE %:word%) Order By p.id DESC", nativeQuery = true)
     Page<Post> findByBoardIdAndTitleOrContent(@Param("boardId") long boardId, @Param("word") String word, Pageable pageable);
+
+
 }

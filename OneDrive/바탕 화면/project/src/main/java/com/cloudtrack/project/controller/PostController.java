@@ -1,6 +1,7 @@
 package com.cloudtrack.project.controller;
 
 import com.cloudtrack.project.entity.Board;
+import com.cloudtrack.project.entity.Comment;
 import com.cloudtrack.project.entity.Post;
 import com.cloudtrack.project.dto.PostDto;
 import com.cloudtrack.project.service.BoardService;
@@ -32,6 +33,14 @@ public class PostController {
     public String getBoard(@PageableDefault(size = 10, page = 0)Pageable pageable, Model model,
                            @PathVariable(name = "boardId") long boardId){
         Board board = boardService.findById(boardId);
+        try {
+            if(board == null){
+                throw new RuntimeException("조회하려는 board 게시판 찾기 실패 ");
+            }
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage());
+            return "redirect:/board/home";
+        }
         model.addAttribute("board", board);
         return handleTravelPost(pageable, model, "travel-board", pageableObj -> postService.getPostsByBoardTitle(pageableObj, boardId));
     }
@@ -40,15 +49,19 @@ public class PostController {
     public String getPostDetailPage(@PathVariable(name = "postId") long postId, Model model,
                                     @PageableDefault(size = 5, page = 0) Pageable pageable){
         Optional<Post> optionalPost = postService.findByIdPost(postId);
-        if(optionalPost.isPresent()){
-            Post post = optionalPost.get();
-            model.addAttribute("post",post);
-            return handleTravelPost(pageable, model, "detail-post", pageableObj -> commentService.getComments(postId, pageableObj));
+        try {
+            if(!optionalPost.isPresent()){
+                throw new RuntimeException("조회하려는 post 게시글 찾기 실패");
+            }
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage());
+            return "redirect:/board/home";
         }
-//        else{
-//            에러 페이지 생성 예정
-//        }
-        return "home";
+        Post post = optionalPost.get();
+        List<Comment> comments = commentService.findByPostId(postId);
+        model.addAttribute("post",post);
+        model.addAttribute("comments", comments);
+        return handleTravelPost(pageable, model, "detail-post", pageableObj -> commentService.getComments(postId, pageableObj));
     }
 
     @GetMapping("/create-form")
@@ -62,25 +75,26 @@ public class PostController {
     @GetMapping("/post-edit-form/{postId}")
     public String editPost(@PathVariable(name = "postId") long postId, Model model){
         Optional<Post> optionalPost = postService.findByIdPost(postId);
-
-        if(optionalPost.isPresent()){
-            Post post = optionalPost.get();
-            model.addAttribute("post", post);
-            return "post-edit-form";
+        try {
+            if(!optionalPost.isPresent()){
+                throw new RuntimeException("수정하려는 post 게시글 찾기 실패");
+            }
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage());
+            return "redirect:board/home";
         }
-//        else{
-//            에러 페이지 작성예정
-//        }
-        return "home";
+        Post post = optionalPost.get();
+        model.addAttribute("post", post);
+        return "post-edit-form";
     }
 
-    @PostMapping("/create-post") // dto사용 해보기
+    @PostMapping("/create-post")
     public String createPost(@RequestParam(name = "title") String title, @RequestParam(name = "content") String content,
                              @RequestParam(name = "boardTitle") String boardTitle){
         PostDto postDto = new PostDto(title, content);
         Long boardId = postService.createPost(postDto, boardTitle);
-        if(boardId == null){
-            return "redirect:/board/home"; // 게시글 생성 오류시 홈화면으로 리다이렉션
+        if(boardId == 0){
+            return "redirect:/board/home";
         }
         return "redirect:/travel/" + boardId;
     }
@@ -89,6 +103,9 @@ public class PostController {
     @PostMapping("/post-update")
     public String updatePost(@ModelAttribute(name = "postDto") PostDto postDto){
         long boardId = postService.updatePost(postDto);
+        if(boardId == 0){
+            return "redirect:/board/home";
+        }
         return "redirect:/travel/detail-post/"+postDto.getId();
     }
 
@@ -104,6 +121,9 @@ public class PostController {
     @DeleteMapping("/post/{postId}")
     public String deletePost(@PathVariable(name = "postId") long postId){
         long boardId = postService.deletePost(postId);
+        if(boardId == 0){
+            return "redirect:/board/home";
+        }
         return "redirect:/travel/" + boardId;
     }
 
