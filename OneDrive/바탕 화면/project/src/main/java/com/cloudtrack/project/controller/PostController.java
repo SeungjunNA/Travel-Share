@@ -93,9 +93,6 @@ public class PostController {
                              @RequestParam(name = "boardTitle") String boardTitle){
         PostDto postDto = new PostDto(title, content);
         Long boardId = postService.createPost(postDto, boardTitle);
-        if(boardId == 0){
-            return "redirect:/board/home";
-        }
         return "redirect:/travel/" + boardId;
     }
 
@@ -103,15 +100,12 @@ public class PostController {
     @PostMapping("/post-update")
     public String updatePost(@ModelAttribute(name = "postDto") PostDto postDto){
         long boardId = postService.updatePost(postDto);
-        if(boardId == 0){
-            return "redirect:/board/home";
-        }
         return "redirect:/travel/detail-post/"+postDto.getId();
     }
 
     @GetMapping("/search/{boardId}")
     public String searchPost(@RequestParam(name = "word") String word, @PathVariable(name = "boardId") long boardId,
-                             Model model, @PageableDefault(size = 2, page = 0) Pageable pageable){
+                             Model model, @PageableDefault(size = 10, page = 0) Pageable pageable){
         Board board = boardService.findById(boardId);
         model.addAttribute("board", board);
         model.addAttribute("word", word);
@@ -121,9 +115,6 @@ public class PostController {
     @DeleteMapping("/post/{postId}")
     public String deletePost(@PathVariable(name = "postId") long postId){
         long boardId = postService.deletePost(postId);
-        if(boardId == 0){
-            return "redirect:/board/home";
-        }
         return "redirect:/travel/" + boardId;
     }
 

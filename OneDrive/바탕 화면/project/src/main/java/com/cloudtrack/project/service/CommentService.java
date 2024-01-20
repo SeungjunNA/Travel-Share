@@ -23,11 +23,12 @@ public class CommentService {
     public void createComment(CommentDto commentDto, long postId){
         Comment comment = commentDto.toEntity();
         Optional<Post> optionalPost = postRepository.findById(postId);
-        if(optionalPost.isPresent()){
-            Post post = optionalPost.get();
-            comment.setPost(post);
-            commentRepository.save(comment);
+        if(!optionalPost.isPresent()){
+            throw new RuntimeException("댓글을 다려는 게시글 조회 실패");
         }
+        Post post = optionalPost.get();
+        comment.setPost(post);
+        commentRepository.save(comment);
     }
 
     public Page<Comment> getComments(long postId, Pageable pageable){
@@ -36,13 +37,8 @@ public class CommentService {
 
     public long delete(long commentId){
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
-        try {
-            if(!optionalComment.isPresent()){
-                throw new RuntimeException("댓글 찾기 실패");
-            }
-        }catch (RuntimeException e){
-            System.out.println(e.getMessage());
-            return 0;
+        if(!optionalComment.isPresent()){
+            throw new RuntimeException("댓글 찾기 실패");
         }
         Comment comment = optionalComment.get();
         long postId = comment.getPost().getId();

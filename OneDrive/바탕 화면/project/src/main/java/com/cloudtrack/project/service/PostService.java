@@ -23,13 +23,8 @@ public class PostService {
     public long createPost(PostDto postDto, String boardTitle) {
         Post post = postDto.toEntity();
         Board board = boardRepository.findByBoardTitle(boardTitle);
-        try {
-            if(board == null){
+        if(board == null){
                 throw new RuntimeException(boardTitle + "게시판 찾기 실패");
-            }
-        }catch (RuntimeException e){
-            System.out.println(e.getMessage());
-            return 0;
         }
         post.setBoard(board);
         postRepository.save(post);
@@ -38,13 +33,8 @@ public class PostService {
 
     public long updatePost(PostDto postDto) {
         Optional<Post> optionalPost = postRepository.findById(postDto.getId());
-        try {
-            if (!optionalPost.isPresent()) {
+        if (!optionalPost.isPresent()) {
                 throw new RuntimeException("post 게시물 찾기 실패 id : " + postDto.getId());
-            }
-        }catch (RuntimeException e){
-            System.out.println(e.getMessage());
-            return 0;
         }
         Post post = optionalPost.get();
         post.setTitle(postDto.getTitle());
@@ -63,13 +53,8 @@ public class PostService {
 
     public long deletePost(long postId) {
         Optional<Post> optionalPost = postRepository.findById(postId);
-        try {
-            if (!optionalPost.isPresent()) {
-                throw new RuntimeException("post 게시물 찾기 실패  id : " + postId);
-            }
-        }catch (RuntimeException e){
-            System.out.println(e.getMessage());
-            return 0;
+        if (!optionalPost.isPresent()) {
+            throw new RuntimeException("post 게시물 찾기 실패  id : " + postId);
         }
         Post post = optionalPost.get();
         long boardId = post.getBoard().getId();

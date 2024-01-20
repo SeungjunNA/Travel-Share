@@ -21,4 +21,9 @@ public class Post extends BaseEntity{
         this.title = title;
         this.content = content;
     }
+    public Post (String title, String content, Board board){
+        this.title = title;
+        this.content = content;
+        this.board = board;
+    }
 }

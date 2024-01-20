@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
-public class Comment{
+public class Comment extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
@@ -21,6 +21,10 @@ public class Comment{
     private Post post;
     public Comment(String content) {
         this.content = content;
+    }
+    public Comment(String content, Post post) {
+        this.content = content;
+        this.post = post;
     }
 }
 
